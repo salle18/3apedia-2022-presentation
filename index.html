@@ -1,57 +1,154 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>3apedia 2022</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+	<title>3apedia 2022</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Everyday Design Patterns</h1>
+			</section>
+			<section>
 				<section>
-					<h1>Everyday Design Patterns</h1>
-					<h2>(using Lego)</h2>
+					<h1>What does Lego have to do with Agile?</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/police_1.jpeg"
+					data-background-size="contain">
 				</section>
 				<section>
-					<section data-background-transition="slide" data-background="assets/police_1.jpeg" data-background-size="contain">
-					</section>
-					<section data-background-transition="slide" data-background="assets/police_2.jpeg" data-background-size="contain">
-					</section>
-					<section data-background-transition="slide" data-background="assets/police_3.jpeg" data-background-size="contain">
-					</section>
-					<section data-background-transition="slide" data-background="assets/police_4.jpeg" data-background-size="contain">
-					</section>
-					<section>
-						<h1>A few iterations later...</h1>
-					</section>
-					<section data-background-transition="slide" data-background="assets/police_5.jpeg" data-background-size="contain">
-					</section>
+					<h1>It has to be *ambibious*?</h1>
 				</section>
-			</div>
+				<section data-background-transition="slide" data-background="assets/police_2.jpeg"
+					data-background-size="contain">
+				</section>
+				<section>
+					<h1>It has to fly!!?</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/police_3.jpeg"
+					data-background-size="contain">
+				</section>
+				<section>
+					<h1>Focus! Pivot back to police...</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/police_4.jpeg"
+					data-background-size="contain">
+				</section>
+				<section>
+					<h1>A few iterations later...</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/police_5.jpeg"
+					data-background-size="contain">
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Backpressure</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/tower_1.jpeg"
+					data-background-size="contain">
+				</section>
+				<section>
+					<h1>Search for 2x2 blocks</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/heap_1.jpeg"
+					data-background-size="contain">
+				</section>
+				<section>
+					<h1>The problem is...</h1>
+				</section>
+				<section data-background-transition="slide" data-background="assets/heap_2.jpeg"
+					data-background-size="contain">
+				</section>
+				<section>
+					<h1>Handling backpressure</h1>
+					<h2>lossy vs lossless</h2>
+				</section>
+				<section>
+					<h1>Pull vs Push</h1>
+					<h2>RxJS vs IxJS</h2>
+				</section>
+				<section>
+					<h4>RxJS push streams</h4>
+					<pre>
+						<code data-trim data-noescape>
+							import { fromEvent, debounceTime } from 'rxjs';
+
+							const clicks = fromEvent(document, 'click');
+							// sample, throttle, audit
+							const result = clicks.pipe(debounceTime(1000));
+							result.subscribe(x => console.log(x));
+						</code>
+						</pre>
+				</section>
+				<section>
+					<h4>IxJS pull-based collections</h4>
+					<pre>
+						<code data-trim data-noescape>
+							import { from } from 'ix/asynciterable';
+							import { filter, map } from 'ix/asynciterable/operators';
+
+							const source = async function* () {
+								yield 1;
+								yield 2;
+								yield 3;
+								yield 4;
+							};
+
+							const results = from(source()).pipe(
+								filter(async x => x % 2 === 0),
+								map(async x => x * x)
+							);
+
+							for await (let item of results) {
+								console.log(`Next: ${item}`); // Next: 4, Next: 16
+							}
+						</code>
+						</pre>
+				</section>
+				<section>
+					<h1>Backpressure strategies</h1>
+					<h2>Control the producer (slow down/speed up)</h2>
+					<h2>Buffer (accumulate spikes)</h2>
+					<h2>Drop (smpale incoming data)</h2>
+				</section>
+				<section>
+					Learn more <a
+						href="https://medium.com/@jayphelps/backpressure-explained-the-flow-of-data-through-software-2350b3e77ce7"
+						target="_blank">Backpressure explained — the resisted flow of data through software @Jay
+						Phelps</a>
+				</section>
+			</section>
 		</div>
+	</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
 </html>
