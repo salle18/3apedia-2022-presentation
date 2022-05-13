@@ -23,7 +23,7 @@
 			</section>
 			<section>
 				<section>
-					<h1>What does Lego have to do with Agile?</h1>
+					<h1>It's play time</h1>
 				</section>
 				<section data-background-transition="slide" data-background="assets/police_1.jpeg"
 					data-background-size="contain">
@@ -89,6 +89,8 @@
 							const clicks = fromEvent(document, 'click');
 							// sample, throttle, audit
 							const result = clicks.pipe(debounceTime(1000));
+							// Animation frame scheduler
+							// const result = clicks.pipe(debounceTime(1000, animationFrameScheduler));
 							result.subscribe(x => console.log(x));
 						</code>
 						</pre>
@@ -170,7 +172,7 @@
 							}) => {
 								const range = useMemo(() => [min, max], [min, max]);
 
-								return <CompoundSlider range={range} />;
+								return < CompoundSlider range={range} />;
 							};
 						</code>
 					</pre>
@@ -266,7 +268,39 @@
 				<section>
 					<pre>
 						<code data-trim data-noescape>
-							// TODO
+							interface ValueRange {
+								values: number[];
+								validate: () => boolean;
+							}
+
+							const removeNulls = (valueRange: ValueRange) => ({
+								...valueRange,
+								values: valueRange.values.filter(value => value !== null),
+							});
+
+							const removeDuplicates = (valueRange: ValueRange) => ({
+								...valueRange,
+								values: [...new Set(valueRange.values)],
+							});
+
+							const validateRange = (min: number, max: number) => (valueRange: ValueRange) => ({
+								...valueRange,
+								validate: () => valueRange.validate() 
+								&& valueRange.values.every(value => value >= min && value <= max),
+							});
+
+							const valueRange: ValueRange = {
+								values: [1, 2, 3, 4, 5, 5, 5, 6, 7],
+								validate: () => true,
+							};
+
+							const decoratedValueRange = removeNulls(removeDuplicates(validateRange(1, 5)(valueRange)));
+
+							// OR 
+
+							const decorateValueRange = compose(validateRange(1, 5), removeDuplicates, removeNulls);
+
+							const decoratedValueRange2 = decorateValueRange(valueRange);
 						</code>
 					</pre>
 				</section>
@@ -301,19 +335,61 @@
 				<section>
 					<pre>
 						<code data-trim data-noescape>
-							// TODO
+													
+						class AgentContactRequest {
+							public constructor(
+								public agent: string,
+								public date: Date,
+								public title: string,
+								public content: string) {
+							}
+						}
+
+						class AgentContactRequestBuilder {
+							private agent: string;
+							private date: Date;
+							private title: string;
+							private content: string;
+
+							public setAgent(agent: string): AgentContactRequestBuilder {
+								this.agent = agent;
+								return this;
+							}
+
+							public setDate(date: Date): AgentContactRequestBuilder {
+								this.date = date;
+								return this;
+							}
+
+							public setMessage(message: string): AgentContactRequestBuilder {
+								const messageParts = message.split("\n");
+								this.title = messageParts[0];
+								this.content = messageParts.slice(1).join("\n");
+								return this;
+							}
+
+							public build(): AgentContactRequest {
+								return new AgentContactRequest(this.agent, this.date, this.title, this.content);
+							}
+						}
+
+						const agentContactRequest = new AgentContactRequestBuilder().setAgent('Thomas').setDate(new Date()).setMessage(`Hello
+						I need help filling out house insurance form.`).build();
+
 						</code>
 					</pre>
 				</section>
 			</section>
 			<section>
-				Learn more
-				<a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring Guru
-					Design Patterns</a>
-				<a href="https://gameprogrammingpatterns.com/contents.html" target="_blank">Game Programming
-					Patterns</a>
-				<a href="https://learning.oreilly.com/library/view/design-patterns-elements/0201633612/"
-					target="_blank">Design Patterns: Elements of Reusable Object-Oriented Software</a>
+				<h3>Learn more</h3>
+				<ul>
+					<li><a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring Guru
+					Design Patterns</a></li>
+					<li><a href="https://gameprogrammingpatterns.com/contents.html" target="_blank">Game Programming
+					Patterns</a></li>
+					<li><a href="https://learning.oreilly.com/library/view/design-patterns-elements/0201633612/"
+					target="_blank">Design Patterns: Elements of Reusable Object-Oriented Software</a></li>
+				</ul>
 			</section>
 			<section>
 				<h1>Thank you</h1>
