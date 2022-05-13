@@ -31,6 +31,10 @@
 				<section>
 					<h1>It has to be *ambibious*?</h1>
 				</section>
+				<section>
+					<h3>Agile Manifesto</h3>
+					<blockquote cite="https://agilemanifesto.org">Respond to change over following a plan</blockquote>
+				</section>
 				<section data-background-transition="slide" data-background="assets/police_2.jpeg"
 					data-background-size="contain">
 				</section>
@@ -77,7 +81,7 @@
 					<h2>lossy vs lossless</h2>
 				</section>
 				<section>
-					<h1>Pull vs Push</h1>
+					<h1>Push vs Pull</h1>
 					<h2>RxJS vs IxJS</h2>
 				</section>
 				<section>
@@ -223,12 +227,12 @@
 									coverages.filter(coverage => coverage.getPremium() > 0), 
 								[coverages]);
 
-								return <Fragment>
+								return < Fragment>
 										{
 											coveragesWithPremium.map(coverage =>
-											<Coverage key={coverage.id} value={coverage} />
+											< Coverage key={coverage.id} value={coverage} />
 										)}	
-								</Fragment>;
+								< /Fragment>;
 							};
 						</code>
 					</pre>
@@ -252,6 +256,9 @@
 					<p>Assign extra behaviors to objects at runtime without breaking the code that uses these objects
 					</p>
 					<p>Client code treats simple and complex elements uniformly</p>
+				</section>
+				<section>
+					<h2>Nicknamed wrapper</h2>
 				</section>
 				<section>
 					<h1>Pros</h1>
