@@ -138,6 +138,43 @@
 				<section>
 					<h1>Adapter</h1>
 				</section>
+				<section>
+					<h1>When to use?</h1>
+					<p>Existing class interface is not compatible with the rest of the code</p>
+					<p>Several subclasses have common functionality that can't be added to superclass</p>
+				</section>
+				<section>
+					<h1>Pros</h1>
+					<p>SRP - separate business logic from data conversion</p>
+					<p>Open closed principle - introduce new adapters without breaking client code</p>
+				</section>
+				<section>
+					<h1>Cons</h1>
+					<p>The overall complexity of the code increases because you need to introduce a set of new
+						interfaces and classes</p>
+				</section>
+				<section>
+					<pre>
+						<code data-trim data-noescape>
+							import React, { FC, useMemo } from 'react';
+							import { CompoundSlider } from 'react-compound-slider';
+
+							interface Props {
+								min: number;
+								max: number;
+							}
+
+							export const Slider: FC<Props> = ({
+								min,
+								max,
+							}) => {
+								const range = useMemo(() => [min, max], [min, max]);
+
+								return <CompoundSlider range={range} />;
+							};
+						</code>
+					</pre>
+				</section>
 			</section>
 			<section>
 				<section data-background-transition="slide" data-background="assets/corner_1.jpeg"
@@ -148,6 +185,51 @@
 				</section>
 				<section>
 					<h1>Composite</h1>
+				</section>
+				<section>
+					<h1>When to use?</h1>
+					<p>Tree-like object structure</p>
+					<p>Client code treats simple and complex elements uniformly</p>
+				</section>
+				<section>
+					<h1>Pros</h1>
+					<p>Easy use of polymorphism and recursion</p>
+					<p>Open closed principle - introduce new element types without breaking existing code</p>
+				</section>
+				<section>
+					<h1>Cons</h1>
+					<p>It might be difficult to provide a common interface for classes whose functionality differs too
+						much.</p>
+				</section>
+				<section>
+					<pre>
+						<code data-trim data-noescape>
+							import React, { FC, useMemo, Fragment } from 'react';
+							import { UnitCoverage, MultiCoverage } from './models';
+							import { Coverage } from './Coverage';
+
+							type CompositeCoverage = UnitCoverage | MultiCoverage;
+
+							interface Props {
+								coverages: CompositeCoverage[];
+							}
+
+							export const CoverageOverview: FC<Props> = ({
+								coverages,
+							}) => {
+								const coveragesWithPremium = useMemo(() => 
+									coverages.filter(coverage => coverage.getPremium() > 0), 
+								[coverages]);
+
+								return <Fragment>
+										{
+											coveragesWithPremium.map(coverage =>
+											<Coverage key={coverage.id} value={coverage} />
+										)}	
+								</Fragment>;
+							};
+						</code>
+					</pre>
 				</section>
 			</section>
 			<section>
@@ -163,6 +245,31 @@
 				<section>
 					<h1>Decorator</h1>
 				</section>
+				<section>
+					<h1>When to use?</h1>
+					<p>Assign extra behaviors to objects at runtime without breaking the code that uses these objects
+					</p>
+					<p>Client code treats simple and complex elements uniformly</p>
+				</section>
+				<section>
+					<h1>Pros</h1>
+					<p>Easy use of polymorphism and recursion</p>
+					<p>Open closed principle - introduce new element types without breaking existing code</p>
+				</section>
+				<section>
+					<h1>Cons</h1>
+					<p>Hard to remove a specific wrapper from the wrappers stack</p>
+					<p>Hard to implement a decorator in such a way that its behavior doesn’t depend on the order in the
+						decorators stack</p>
+					<p>Initial configuration code of layers might look pretty ugly.</p>
+				</section>
+				<section>
+					<pre>
+						<code data-trim data-noescape>
+							// TODO
+						</code>
+					</pre>
+				</section>
 			</section>
 			<section>
 				<section data-background-transition="slide" data-background="assets/builder_1.jpeg"
@@ -173,6 +280,30 @@
 					data-background-size="contain" data-background-color="#dbdbdb"></section>
 				<section>
 					<h1>Builder</h1>
+				</section>
+				<section>
+					<h1>When to use?</h1>
+					<p>Get rid of a “telescopic constructor”</p>
+					<p>Being able to create different representations of some product
+					</p>
+					<p>Use to create Composite object or other complex objects</p>
+				</section>
+				<section>
+					<h1>Pros</h1>
+					<p>Construct objects step-by-step, defer construction</p>
+					<p>Reuse the same construction code when building various representations</p>
+					<p>SRP - isolate complex construction code from the business logic of the product</p>
+				</section>
+				<section>
+					<h1>Cons</h1>
+					<p>The overall complexity of the code might increase</p>
+				</section>
+				<section>
+					<pre>
+						<code data-trim data-noescape>
+							// TODO
+						</code>
+					</pre>
 				</section>
 			</section>
 			<section>
